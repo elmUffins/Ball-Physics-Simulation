@@ -61,6 +61,16 @@ while running:
             circle_vel.x += -4
         circle_vel.y += -10
 
+    #Logic for clicking
+    mouse_pos = pygame.mouse.get_pos()
+    mouse_click = pygame.mouse.get_pressed()
+    if mouse_click == (1, 0, 0):
+        circle_vel.y = -10
+        if circle_vel.x > 0:
+            circle_vel.x += 1
+        else:
+            circle_vel.x += -1
+
     screen.fill((0, 0, 0))
 
     pSurface = font.render(f"Position: {circle_pos}", True, (255, 255, 255))
