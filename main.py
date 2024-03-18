@@ -73,10 +73,12 @@ while running:
 
     screen.fill((0, 0, 0))
 
+    hSurface = font.render("Click to jump!", True, (255, 255, 255))
     pSurface = font.render(f"Position: {circle_pos}", True, (255, 255, 255))
     vSurface = font.render(f"Velocity: {circle_vel}", True, (255, 255, 255))
     screen.blit(pSurface, (10, 10))
     screen.blit(vSurface, (10, 46))
+    screen.blit(hSurface, (630, 10))
     pygame.draw.circle(screen, (255, 0, 0), circle_pos, circle_radius)
     pygame.draw.rect(screen, (255, 255, 255), (0, 0, 800, 600.5), 1)
     boosterR = pygame.draw.rect(screen, (0, 255, 255), (770, 590, 25, 10))
