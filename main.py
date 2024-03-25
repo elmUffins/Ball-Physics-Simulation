@@ -21,7 +21,7 @@ circle_acc = pygame.Vector2(0, 0.5)
 vel_decay = 0.005
 circle_radius = 20
 bounce_sound = pygame.mixer.Sound("Bounce.wav")
-bounce_sound.set_volume(0.1)
+bounce_sound.set_volume(1.0)
 
 font = pygame.font.Font(None, 36)
 
@@ -32,6 +32,26 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
+        #Jumping and stopping logic
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mouse_pos = pygame.mouse.get_pos()
+                circle_vel.y = -10
+                if circle_vel.x > 0:
+                    circle_vel.x += 2
+                elif circle_vel.x < 0:
+                    circle_vel.x += -2
+                else:
+                    if circle_pos.x <= 400:
+                        circle_vel.x += -2
+                    else:
+                        circle_vel.x += 2
+            elif event.button == 3: #Literally falls like an anvil
+                circle_vel.x = 0
+                circle_vel.y = 0
+
+
 
     circle_vel += circle_acc
     circle_vel *= 1 - vel_decay
@@ -79,27 +99,18 @@ while running:
         goalY = random.randint(0, 500)
         score += 1
 
-
-    #Logic for clicking
-    mouse_pos = pygame.mouse.get_pos()
-    mouse_click = pygame.mouse.get_pressed()
-    if mouse_click == (1, 0, 0):
-        circle_vel.y = -10
-        if circle_vel.x > 0:
-            circle_vel.x += 1
-        else:
-            circle_vel.x += -1
-
     screen.fill((0, 0, 0))
 
     hSurface = font.render("Left click to jump!", True, (255, 255, 255))
+    h2Surface = font.render("Right click to stop!", True, (255, 255, 255))
     pSurface = font.render(f"Position: {circle_pos}", True, (255, 255, 255))
     vSurface = font.render(f"Velocity: {circle_vel}", True, (255, 255, 255))
     sSurface = font.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(pSurface, (10, 10))
     screen.blit(vSurface, (10, 46))
-    screen.blit(hSurface, (580, 10))
-    screen.blit(sSurface, (580, 46))
+    screen.blit(hSurface, (570, 10))
+    screen.blit(sSurface, (570, 82))
+    screen.blit(h2Surface, (570, 46))
     pygame.draw.circle(screen, (255, 0, 0), circle_pos, circle_radius)
     pygame.draw.rect(screen, (255, 255, 255), (0, 0, 800, 600.5), 1)
     boosterR = pygame.draw.rect(screen, (0, 255, 255), (770, 590, 25, 10))
